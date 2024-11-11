@@ -6,3 +6,8 @@ CREATE TABLE quiz (
     ans TEXT NOT NULL,
     UNIQUE (ans)
 );
+
+CREATE TABLE users (
+    id IDENTITY,
+    name VARCHAR NOT NULL
+);

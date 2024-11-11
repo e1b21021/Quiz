@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/schema/security">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クイズゲーム</title>
+</head>
+
+<body>
+  <a href="/logout">ログアウト</a>
+  <h1>クイズゲーム</h1>
+  <p>Hi <span th:text="${username}"></span> さん</p>
+
+  <h2>エントリー</h2>
+  <ul>
+    <li th:each="user : ${userList}">
+      <a th:href="@{/janken/match(id=${user.id})}">[[${user.name}]]</a>
+    </li>
+  </ul>
+
+  <p><a href="/janken">戻る</a></p>
+
+</body>
+
+</html>

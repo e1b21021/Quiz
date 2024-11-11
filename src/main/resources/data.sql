@@ -1,4 +1,4 @@
-INSERT INTO quiz (cate, subcate, quiz, ans) VALUES 
+INSERT INTO quiz (cate, subcate, quiz, ans) VALUES
 ('戦国', '年代', '織田信長が本能寺で討たれた年は？', '1582年'),
 ('戦国', NULL, '武田信玄が使用した軍旗に書かれていた四文字熟語は？', '風林火山'),
 ('戦国', '年代', '豊臣秀吉が天下統一を果たしたとされる年は？', '1590年'),
