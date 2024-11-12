@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>クイズ表示</title>
+</head>
+
+<body>
+  <h1>クイズ</h1>
+  <p th:text="${quiz.quiz}">クイズが表示されます</p>
+  <p th:text="'カテゴリー: ' + ${quiz.cate}">カテゴリー</p>
+  <p th:if="${quiz.subcate != null}" th:text="'サブカテゴリー: ' + ${quiz.subcate}">サブカテゴリー</p>
+</body>
+
+</html>
