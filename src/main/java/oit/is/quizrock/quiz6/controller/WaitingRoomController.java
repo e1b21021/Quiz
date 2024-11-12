@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class WaitingRoomController {
 
   @GetMapping("/waiting-room")
-  public String waitingRoom(Model model) {
-    model.addAttribute("message", "Welcome to the waiting room!");
-    return "waiting-room"; // テンプレートファイル名
+  public String showWaitingRoom(Model model) {
+    model.addAttribute("message", "ここは待機所です");
+    return "waiting-room"; // テンプレート名
   }
 }
