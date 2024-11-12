@@ -56,14 +56,14 @@ public class QuizAuthConfiguration {
     // user1/p@ss,user2/p@ss,admin/p@ss
     UserDetails user1 = User.withUsername("あきら")
         .password("{bcrypt}$2y$05$HPzReJkJfxAKDKaaQtg3rOHaXZoSPqL3zJ/1.GH5W1BPjNtoHRzhS").roles("USER").build();
-    UserDetails user2 = User.withUsername("user2")
-        .password("{bcrypt}$2y$05$VRnQ8qmQ4NnJKTk8dqy5/.yg6jZsmJ/6jeoRzoTtqWjfgtQ/Lyysu").roles("USER").build();
+    UserDetails user2 = User.withUsername("たくや")
+        .password("{bcrypt}$2y$05$PqQxTVGxAWL35PpmBdAzb.buowWPe/E/Rpo5BAODenmbFoNK.wGX2").roles("USER").build();
 
-    UserDetails user3 = User.withUsername("ほんだ")
-        .password("{bcrypt}$2y$05$v/qRt.YxpL.KxMJ/qk8/DuA3QMIIZUK4v7iFn4yOO/BC.gopfWEZK").build();
+    UserDetails user3 = User.withUsername("けいた")
+        .password("{bcrypt}$2y$05$NriI4H3y1sx00QHqu/Qk4.Y66uFIH.XYC.E48c4nO0Ggcw51virUK").build();
 
-    UserDetails user4 = User.withUsername("いがき")
-        .password("{bcrypt}$2y$05$GTRq.teM4/HEZzNAMyIR0u8JwgI/qY2hj2yFkU9C4Cn5ZYbK5L0HW").build();
+    UserDetails user4 = User.withUsername("りゅうのすけ")
+        .password("{bcrypt}$2y$05$DdZhq1Ajb/IOic.QkXaO4.9kD0xKroqq3zRuzL8SJ09HKZEJKOX92").build();
 
     // 生成したユーザをImMemoryUserDetailsManagerに渡す（いくつでも良い）
     return new InMemoryUserDetailsManager(user1, user2, user3, user4);
