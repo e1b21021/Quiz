@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10秒カウントダウン</title>
+    <style>
+        #timer {
+            font-size: 2em;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            font-size: 1em;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>サーバー同期10秒カウントダウン</h1>
+<div id="timer">10</div>
+<button id="startButton" onclick="startCountdown()">カウントダウン開始</button>
+
+<script>
+    let countdownInterval;
+
+    // サーバー側でタイマーを開始し、クライアントと同期
+    function startCountdown() {
+        fetch('/start-timer') // サーバー側でタイマーを開始
+            .then(response => response.text())
+            .then(message => {
+                console.log(message);
+                // 残り時間の表示をリセット
+                document.getElementById("timer").textContent = 10;
+
+                // 1秒ごとに残り時間を取得して更新
+                if (countdownInterval) clearInterval(countdownInterval);
+                countdownInterval = setInterval(updateTimer, 1000);
+            })
+            .catch(error => console.error('エラー:', error));
+    }
+
+    // サーバーから残り時間を取得して表示する関数
+    function updateTimer() {
+        fetch('/remaining-time')
+            .then(response => response.json())
+            .then(timeLeft => {
+                document.getElementById("timer").textContent = timeLeft > 0 ? timeLeft : "タイムアップ!";
+                if (timeLeft <= 0) clearInterval(countdownInterval); // タイムアップで停止
+            })
+            .catch(error => console.error('エラー:', error));
+    }
+</script>
+
+</body>
+</html>
