@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回答入力フォーム</title>
+  <style>
+    body {
+      background-color: lightblue;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 20px 0;
+      font-size: 48px;
+      /* フォントサイズを48pxに設定 */
+      position: fixed;
+      top: 0;
+      width: 100%;
+      text-align: center;
+      background-color: lightblue;
+      z-index: 1;
+      /* 他要素の上に表示 */
+    }
+
+    #buttonField {
+      margin-top: auto;
+      margin-bottom: 150px;
+      /* ボタンを下部に配置 */
+    }
+
+    #inputField {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 20px;
+      margin-bottom: 50px;
+    }
+
+    button {
+      width: 300px;
+      padding: 10px;
+      font-size: 20px;
+    }
+  </style>
+  <script>
+    function showInputField() {
+      document.getElementById('inputField').style.display = 'block';
+    }
+  </script>
+</head>
+
+<body>
+  <h1>★対戦画面★ <span sec:authentication="name"></span></h1>
+  <div id="buttonField">
+    <button onclick="showInputField()">回答を入力する</button>
+  </div>
+  <div id="inputField">
+    <input type="text" placeholder="ここに回答を入力">
+    <button>送信</button>
+  </div>
+</body>
+
+</html>
