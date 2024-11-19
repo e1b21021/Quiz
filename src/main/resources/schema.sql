@@ -3,11 +3,10 @@ CREATE TABLE quiz (
     cate VARCHAR(50) NOT NULL,
     subcate VARCHAR(50),
     quiz TEXT NOT NULL,
-    ans TEXT NOT NULL,
-    UNIQUE (ans)
+    ans TEXT NOT NULL
 );
 
 CREATE TABLE users (
-    id IDENTITY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL
 );
