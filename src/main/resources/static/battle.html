@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>回答入力フォーム</title>
+  <title>対戦画面</title>
   <style>
     body {
       background-color: lightblue;
@@ -20,24 +20,25 @@
       margin: 0;
       padding: 20px 0;
       font-size: 48px;
-      /* フォントサイズを48pxに設定 */
       position: fixed;
       top: 0;
       width: 100%;
       text-align: center;
       background-color: lightblue;
       z-index: 1;
-      /* 他要素の上に表示 */
+    }
+
+    #quizField {
+      margin-top: 100px;
+      text-align: center;
     }
 
     #buttonField {
       margin-top: auto;
       margin-bottom: 150px;
-      /* ボタンを下部に配置 */
     }
 
     #inputField {
-      display: none;
       margin-top: 20px;
       text-align: center;
     }
@@ -46,7 +47,7 @@
       width: 300px;
       padding: 10px;
       font-size: 20px;
-      margin-bottom: 50px;
+      margin-bottom: 20px;
     }
 
     button {
@@ -55,22 +56,55 @@
       font-size: 20px;
     }
   </style>
-  <script>
-    function showInputField() {
-      document.getElementById('inputField').style.display = 'block';
-    }
-  </script>
 </head>
 
 <body>
-  <h1>★対戦画面★ <span sec:authentication="name"></span></h1>
-  <div id="buttonField">
-    <button onclick="showInputField()">回答を入力する</button>
+  <h1>★対戦画面★</h1>
+  <div id="quizField">
+    <p id="quiz">クイズが表示されます</p>
+    <p id="cate">カテゴリーが表示されます</p>
+    <p id="subcate">サブカテゴリーが表示されます</p>
   </div>
   <div id="inputField">
-    <input type="text" placeholder="ここに回答を入力">
-    <button>送信</button>
+    <input id="answerInput" type="text" placeholder="ここに回答を入力">
+    <button onclick="submitAnswer()">送信</button>
   </div>
+  <div id="buttonField">
+    <button onclick="getNextQuiz()">次のクイズへ</button>
+  </div>
+
+  <script>
+    async function getNextQuiz() {
+      try {
+        const response = await fetch('/battle/next'); // 次のクイズを取得するエンドポイント
+        if (!response.ok) {
+          throw new Error('クイズの取得に失敗しました');
+        }
+        const quiz = await response.json();
+        // クイズを画面に更新
+        document.getElementById('quiz').innerText = quiz.quiz;
+        document.getElementById('cate').innerText = "カテゴリー: " + quiz.cate;
+        document.getElementById('subcate').innerText = quiz.subcate
+          ? "サブカテゴリー: " + quiz.subcate
+          : "";
+        // 解答欄をリセット
+        document.getElementById('answerInput').value = '';
+      } catch (error) {
+        console.error(error);
+        alert('クイズの取得に失敗しました。');
+      }
+    }
+
+    function submitAnswer() {
+      const userAnswer = document.getElementById('answerInput').value;
+      if (!userAnswer) {
+        alert('回答を入力してください！');
+        return;
+      }
+      // 今回は回答処理は未実装
+      alert('回答: ' + userAnswer + ' が送信されました！');
+    }
+  </script>
 </body>
 
 </html>
