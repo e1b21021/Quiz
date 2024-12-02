@@ -23,6 +23,12 @@ public class WaitingRoomController {
    * @param model    モデルに追加するデータ
    * @return テンプレート名
    */
+  @GetMapping("/waitingRoom_numQuestions_settings")
+  public String showNumQuestionsSettings() {
+    // numQuestions_settings.html を返す
+    return "numQuestions_settings";
+  }
+
   @GetMapping("/waiting-room")
   public String showWaitingRoom(@RequestParam(name = "username", required = false) String username, Model model) {
     if (username != null && !username.isEmpty()) {
