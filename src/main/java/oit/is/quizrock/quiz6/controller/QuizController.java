@@ -21,7 +21,7 @@ public class QuizController {
     return "quiz"; // quiz.html テンプレートを表示
   }
 
-  @GetMapping("/quiz_numQuestions_settings")
+  @GetMapping("/numQuestions_settings")
   public String showNumQuestionsSettings() {
     return "numQuestions_settings"; // numQuestions_settings.html を表示
   }
