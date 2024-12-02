@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>numQuestions Settings</title>
+</head>
+
+<body>
+  <h1>クイズ設定</h1>
+  <form action="/select" method="post">
+    <label for="numQuestions">問題数:</label>
+    <select id="numQuestions" name="numQuestions">
+      <option value="3">3</option>
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+  </form>
+</body>
+
+</html>
