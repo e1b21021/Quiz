@@ -43,6 +43,12 @@
       text-align: center;
     }
 
+    #timerField {
+      margin-top: 20px;
+      font-size: 24px;
+      text-align: center;
+    }
+
     input {
       width: 300px;
       padding: 10px;
@@ -65,17 +71,31 @@
     <p id="cate">カテゴリーが表示されます</p>
     <p id="subcate">サブカテゴリーが表示されます</p>
   </div>
+  <div id="timerField">
+    <p id="timer">タイマー: 10</p>
+  </div>
   <div id="inputField">
     <input id="answerInput" type="text" placeholder="ここに回答を入力">
     <button onclick="submitAnswer()">送信</button>
   </div>
   <div id="buttonField">
-    <button onclick="getNextQuiz()">次のクイズへ</button>
+    <button onclick="startNextQuiz()">次のクイズへ</button>
   </div>
 
   <script>
-    async function getNextQuiz() {
+    let countdownInterval;
+
+    async function startNextQuiz() {
       try {
+        // タイマーを開始
+        await fetch('/start-timer');
+        document.getElementById("timer").textContent = "タイマー: 10";
+
+        // 1秒ごとに残り時間を取得して更新
+        if (countdownInterval) clearInterval(countdownInterval);
+        countdownInterval = setInterval(updateTimer, 1000);
+
+        // 次のクイズを取得
         const response = await fetch('/battle/next'); // 次のクイズを取得するエンドポイント
         if (!response.ok) {
           throw new Error('クイズの取得に失敗しました');
@@ -84,25 +104,25 @@
         // クイズを画面に更新
         document.getElementById('quiz').innerText = quiz.quiz;
         document.getElementById('cate').innerText = "カテゴリー: " + quiz.cate;
-        document.getElementById('subcate').innerText = quiz.subcate
-          ? "サブカテゴリー: " + quiz.subcate
-          : "";
-        // 解答欄をリセット
-        document.getElementById('answerInput').value = '';
+        document.getElementById('subcate').innerText = "サブカテゴリー: " + quiz.subcate;
       } catch (error) {
-        console.error(error);
-        alert('クイズの取得に失敗しました。');
+        console.error('エラー:', error);
       }
     }
 
-    function submitAnswer() {
-      const userAnswer = document.getElementById('answerInput').value;
-      if (!userAnswer) {
-        alert('回答を入力してください！');
-        return;
+    // サーバーから残り時間を取得して表示する関数
+    async function updateTimer() {
+      try {
+        const response = await fetch('/remaining-time');
+        if (!response.ok) {
+          throw new Error('残り時間の取得に失敗しました');
+        }
+        const timeLeft = await response.json();
+        document.getElementById("timer").textContent = "タイマー: " + (timeLeft > 0 ? timeLeft : "タイムアップ!");
+        if (timeLeft <= 0) clearInterval(countdownInterval); // タイムアップで停止
+      } catch (error) {
+        console.error('エラー:', error);
       }
-      // 今回は回答処理は未実装
-      alert('回答: ' + userAnswer + ' が送信されました！');
     }
   </script>
 </body>
