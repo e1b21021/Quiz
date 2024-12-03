@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import oit.is.quizrock.quiz6.mapper.UserMapper;
 import oit.is.quizrock.quiz6.model.User;
-import oit.is.quizrock.quiz6.model.UserMapper;
 
 @Controller
 public class WaitingRoomController {

@@ -1,10 +1,12 @@
-package oit.is.quizrock.quiz6.model;
+package oit.is.quizrock.quiz6.mapper;
 
 import java.util.ArrayList;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+
+import oit.is.quizrock.quiz6.model.User;
 
 @Mapper
 public interface UserMapper {
