@@ -40,12 +40,4 @@ public class QuizController {
         return "waitingroom"; // 待機画面を表示
     }
 
-  @GetMapping("/result")
-  public String showResult(Model model) {
-    // モデルにデータを渡す
-    model.addAttribute("resultMessage", "おめでとう！正解です！");
-    model.addAttribute("resultType", "success"); // 成功か失敗かを示す（"success" or "failure"）
-    return "result";
-  }
-
 }
