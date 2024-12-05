@@ -13,4 +13,9 @@ public class QuizService {
   public Quiz getRandomQuiz() {
     return quizMapper.findRandomQuiz();
   }
+
+  // クイズIDを指定してクイズを取得
+  public Quiz getQuizById(int quizId) {
+    return quizMapper.findQuizById(quizId); // QuizMapperでIDを指定してクイズを取得
+  }
 }
