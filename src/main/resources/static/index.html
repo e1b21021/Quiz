@@ -3,7 +3,61 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>クイズゲーム</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クイズゲーム - トップページ</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    input[type="submit"] {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 
 <body>
@@ -11,7 +65,6 @@
     <h1>ようこそ、クイズゲームへ！</h1>
     <p>名前を入力してください：</p>
 
-    <!-- 名前を入力してクイズゲームを開始するフォーム -->
     <form action="/waiting-room" method="GET">
       <input type="text" name="username" placeholder="名前を入力" required>
       <input type="submit" value="登録">
