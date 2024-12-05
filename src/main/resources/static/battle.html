@@ -70,61 +70,97 @@
     <p id="quiz">クイズが表示されます</p>
     <p id="cate">カテゴリーが表示されます</p>
     <p id="subcate">サブカテゴリーが表示されます</p>
-  </div>
-  <div id="timerField">
-    <p id="timer">タイマー: 10</p>
-  </div>
-  <div id="inputField">
-    <input id="answerInput" type="text" placeholder="ここに回答を入力">
-    <button onclick="submitAnswer()">送信</button>
-  </div>
-  <div id="buttonField">
-    <button onclick="startNextQuiz()">次のクイズへ</button>
-  </div>
+    <div id="quizDetails" data-quiz-id="${quiz.id}">
 
-  <script>
-    let countdownInterval;
+    </div>
+    <div id="timerField">
+      <p id="timer">タイマー: 10</p>
+    </div>
+    <div id="inputField">
+      <input id="answerInput" type="text" placeholder="ここに回答を入力">
+      <input id="quizId" type="hidden" th:value="${quiz.id}">
+      <!-- クイズIDを隠しフィールドに追加 -->
+      <button onclick="submitAnswer()">送信</button>
+    </div>
+    <div id="buttonField">
+      <button onclick="startNextQuiz()">次のクイズへ</button>
+    </div>
 
-    async function startNextQuiz() {
-      try {
-        // タイマーを開始
-        await fetch('/start-timer');
-        document.getElementById("timer").textContent = "タイマー: 10";
+    <script>
+      let countdownInterval;
+      let currentQuizId; // クイズIDを格納するグローバル変数
+      let currentAnswer;
 
-        // 1秒ごとに残り時間を取得して更新
-        if (countdownInterval) clearInterval(countdownInterval);
-        countdownInterval = setInterval(updateTimer, 1000);
+      async function startNextQuiz() {
+        try {
+          // タイマーを開始
+          await fetch('/start-timer');
+          document.getElementById("timer").textContent = "タイマー: 10";
 
-        // 次のクイズを取得
-        const response = await fetch('/battle/next'); // 次のクイズを取得するエンドポイント
-        if (!response.ok) {
-          throw new Error('クイズの取得に失敗しました');
+          // 1秒ごとに残り時間を取得して更新
+          if (countdownInterval) clearInterval(countdownInterval);
+          countdownInterval = setInterval(updateTimer, 1000);
+
+          // 次のクイズを取得
+          const response = await fetch('/battle/next'); // 次のクイズを取得するエンドポイント
+          if (!response.ok) {
+            throw new Error('クイズの取得に失敗しました');
+          }
+          const quiz = await response.json();
+          // クイズを画面に更新
+          document.getElementById('quiz').innerText = quiz.quiz;
+          document.getElementById('cate').innerText = "カテゴリー: " + quiz.cate;
+          document.getElementById('subcate').innerText = "サブカテゴリー: " + quiz.subcate;
+
+          // クイズIDをグローバル変数に保存
+          currentQuizId = quiz.id;
+          currentAnswer = quiz.ans;
+
+        } catch (error) {
+          console.error('エラー:', error);
         }
-        const quiz = await response.json();
-        // クイズを画面に更新
-        document.getElementById('quiz').innerText = quiz.quiz;
-        document.getElementById('cate').innerText = "カテゴリー: " + quiz.cate;
-        document.getElementById('subcate').innerText = "サブカテゴリー: " + quiz.subcate;
-      } catch (error) {
-        console.error('エラー:', error);
       }
-    }
 
-    // サーバーから残り時間を取得して表示する関数
-    async function updateTimer() {
-      try {
-        const response = await fetch('/remaining-time');
-        if (!response.ok) {
-          throw new Error('残り時間の取得に失敗しました');
+      // サーバーから残り時間を取得して表示する関数
+      async function updateTimer() {
+        try {
+          const response = await fetch('/remaining-time');
+          if (!response.ok) {
+            throw new Error('残り時間の取得に失敗しました');
+          }
+          const timeLeft = await response.json();
+          document.getElementById("timer").textContent = "タイマー: " + (timeLeft > 0 ? timeLeft : "タイムアップ!");
+          if (timeLeft <= 0) clearInterval(countdownInterval); // タイムアップで停止
+        } catch (error) {
+          console.error('エラー:', error);
         }
-        const timeLeft = await response.json();
-        document.getElementById("timer").textContent = "タイマー: " + (timeLeft > 0 ? timeLeft : "タイムアップ!");
-        if (timeLeft <= 0) clearInterval(countdownInterval); // タイムアップで停止
-      } catch (error) {
-        console.error('エラー:', error);
       }
-    }
-  </script>
+
+      // ユーザーの答えとクイズIDをサーバに送信
+      async function submitAnswer() {
+        const userAnswer = encodeURIComponent(document.getElementById("answerInput").value);
+
+        const quizId = currentQuizId; // 直接グローバル変数から取得
+        const quizAns = currentAnswer;
+
+        console.log('quizId:', currentQuizId);  // quizIdの値をデバッグ
+
+        const response = await fetch(`/battle/submit?userAnswer=${userAnswer}&quizId=${quizId}&quizAns=${quizAns}`, {
+          method: 'POST'
+        });
+
+        if (!response.ok) {
+          console.error('エラー:', response.status);
+          alert(`エラー: ${response.status}`);
+        } else {
+          const result = await response.text();
+          alert(result || 'レスポンスが空です');
+        }
+      }
+
+
+
+    </script>
 </body>
 
 </html>

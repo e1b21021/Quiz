@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import oit.is.quizrock.quiz6.model.User;
 
@@ -31,5 +32,11 @@ public interface UserMapper {
   // 名前を指定して1つのユーザ情報を取得する
   @Select("SELECT id, name FROM users WHERE name = #{name} LIMIT 1")
   User selectByName(String name);
+
+  @Select("SELECT * FROM users WHERE name = #{name}")
+  User selectByName2(String name);
+
+  @Update("UPDATE users SET point = #{point} WHERE id = #{id}")
+  void updateUser(User user);
 
 }
