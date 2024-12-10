@@ -23,7 +23,7 @@ public class WaitingRoomController {
    * @param model    モデルに追加するデータ
    * @return テンプレート名
    */
-  @GetMapping("/waiting-room")
+  @GetMapping("/3_anime_waiting-room")
   public String showWaitingRoom(@RequestParam(name = "username", required = false) String username, Model model) {
     if (username != null && !username.isEmpty()) {
       // データベースに名前を保存
@@ -34,7 +34,7 @@ public class WaitingRoomController {
 
     // メッセージをビューに追加
     model.addAttribute("message", "ここは待機所です");
-    return "waiting-room"; // テンプレート名
+    return "3_anime_waiting-room"; // テンプレート名
   }
 
 }
