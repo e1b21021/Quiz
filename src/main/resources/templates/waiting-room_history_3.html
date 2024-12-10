@@ -52,20 +52,12 @@
 </head>
 
 <body>
-<<<<<<< Updated upstream:src/main/resources/templates/waiting-room.html
   <div class="container">
     <h1 th:text="${message}">待機所</h1>
     <p>お待ちください...</p>
 
     <form action="/battle" method="GET">
-=======
-  <h1 th:text="${message}">待機所</h1>
-  <p>選択ジャンル：歴史</p>
-  <p>選択問題数：3問</p>
-  <p>お待ちください...</p>
-  <div id="buttonField">
-    <form action="/battle.html" method="GET">
->>>>>>> Stashed changes:src/main/resources/templates/waiting-room_history_3.html
+<form action="/battle.html" method="GET">
       <input type="submit" value="クイズに参加する">
     </form>
   </div>
