@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>待機所</title>
+</head>
+
+<body>
+  <h1 th:text="${message}">待機所</h1>
+  <p>選択ジャンル：歴史</p>
+  <p>選択問題数：5問</p>
+  <p>お待ちください...</p>
+  <div id="buttonField">
+    <form action="/battle.html" method="GET">
+      <input type="submit" value="クイズに参加する">
+    </form>
+  </div>
+</body>
+
+</html>
