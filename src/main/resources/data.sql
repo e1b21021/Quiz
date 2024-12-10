@@ -191,7 +191,7 @@ INSERT INTO quiz (cate, subcate, quiz, ans) VALUES
 ('音ゲー難読曲名', 'Daisuke Ohnuma', '香港功夫大旋風', 'ホンコンカンフーハリケーン'),
 ('音ゲー難読曲名', '飛鳥男™', '和蘭撫子', 'カーネーション'),
 ('音ゲー難読曲名', '青龍', '3y3s', 'アイズ'),
-('音ゲー難読曲名', '立秋feat.ちょこ', '😲🙌👾🤖🤸👺🌠🤲👻🖐️🛸😀', 'わー'),
+('音ゲー難読曲名', '立秋feat.ちょこ', '😲🙌👾🤖🤸👺🌠🤲👻🖐️🛸😀', 'わー');
 
 
 INSERT INTO quiz (cate, subcate, quiz, ans) VALUES
