@@ -9,6 +9,6 @@ public interface QuizMapper {
   @Select("SELECT * FROM quiz ORDER BY RAND() LIMIT 1")
   Quiz findRandomQuiz();
 
-  @Select("SELECT * FROM quiz WHERE id = #{id}")
-  Quiz findQuizById(int id);
+  @Select("SELECT * FROM quiz WHERE id = #{quizId}")
+  Quiz findQuizById(int quizId);
 }

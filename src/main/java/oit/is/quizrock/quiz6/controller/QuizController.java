@@ -40,7 +40,7 @@ public class QuizController {
         return "waitingroom"; // 待機画面を表示
     }
 
-  @GetMapping("/result")
+  @GetMapping("/quiz/result")
   public String showResult(Model model) {
     // モデルにデータを渡す
     model.addAttribute("resultMessage", "おめでとう！正解です！");

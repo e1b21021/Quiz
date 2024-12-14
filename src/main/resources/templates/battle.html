@@ -8,7 +8,7 @@
   <title>対戦画面</title>
   <style>
     body {
-      background: linear-gradient(to bottom, #87CEEB, #4682B4);
+      background: linear-gradient(to bottom, #87CEFA, #4682B4);
       color: white;
       font-family: Arial, sans-serif;
       display: flex;
@@ -23,25 +23,32 @@
       padding: 20px 0;
       font-size: 48px;
       font-weight: bold;
-      text-shadow: 2px 2px 4px #000;
-      text-align: center;
+      text-shadow: 2px 2px 5px #000;
+      position: fixed;
+      top: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.3);
+      text-align: center;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1;
     }
 
     #quizField {
-      margin-top: 80px;
+      margin-top: 120px;
       text-align: center;
       padding: 20px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      width: 80%;
-      max-width: 800px;
+    }
+
+    #scoreField {
+      margin-top: 10px;
+      font-size: 20px;
+      text-align: center;
     }
 
     #timerField {
-      margin-top: 20px;
+      margin-top: 10px;
       font-size: 24px;
       text-align: center;
     }
@@ -53,22 +60,22 @@
 
     #buttonField {
       margin-top: auto;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
-    input[type="text"] {
+    input {
       width: 300px;
       padding: 10px;
-      font-size: 18px;
-      margin-bottom: 10px;
+      font-size: 20px;
+      margin-bottom: 20px;
       border: none;
       border-radius: 5px;
     }
 
     button {
-      width: 200px;
+      width: 300px;
       padding: 10px;
-      font-size: 18px;
+      font-size: 20px;
       margin: 10px 0;
       border: none;
       border-radius: 5px;
@@ -101,6 +108,9 @@
     <p id="cate">カテゴリーが表示されます</p>
     <p id="subcate">サブカテゴリーが表示されます</p>
   </div>
+  <div id="scoreField">
+    <p id="score">スコア: 0</p>
+  </div>
   <div id="timerField">
     <p id="timer">タイマー: 10</p>
   </div>
@@ -110,76 +120,106 @@
   </div>
   <div id="buttonField">
     <button onclick="startNextQuiz()">次のクイズへ</button>
-    <a href="/" style="text-decoration: none;">
+    <a href="/" class="top-button" style="text-decoration: none; display: inline-block;">
       <button class="top-button">トップページに戻る</button>
     </a>
   </div>
 
+  <!-- スクリプトをここに追加 -->
   <script>
-    let countdownInterval;
-    let currentQuizId; // クイズIDを格納するグローバル変数
-    let currentAnswer;
+  let countdownInterval; // タイマー用インターバル
+    let remainingTime = 10; // タイマーの初期値
 
-    async function startNextQuiz() {
+    // タイマーを開始
+    async function startTimer() {
       try {
-        // タイマーを開始
+        // サーバーでタイマーを初期化
         await fetch('/start-timer');
         document.getElementById("timer").textContent = "タイマー: 10";
 
-        // 1秒ごとに残り時間を取得して更新
+        // タイマーを更新
         if (countdownInterval) clearInterval(countdownInterval);
         countdownInterval = setInterval(updateTimer, 1000);
-
-        // 次のクイズを取得
-        const response = await fetch('/battle/next'); // 次のクイズを取得するエンドポイント
-        if (!response.ok) {
-          throw new Error('クイズの取得に失敗しました');
-        }
-        const quiz = await response.json();
-        // クイズを画面に更新
-        document.getElementById('quiz').innerText = quiz.quiz;
-        document.getElementById('cate').innerText = "カテゴリー: " + quiz.cate;
-        document.getElementById('subcate').innerText = "サブカテゴリー: " + quiz.subcate;
-
-        // クイズIDをグローバル変数に保存
-        currentQuizId = quiz.id;
-        currentAnswer = quiz.ans;
-
       } catch (error) {
-        console.error('エラー:', error);
+        console.error("タイマーの開始に失敗しました:", error);
       }
     }
 
+    // サーバーから残り時間を取得
     async function updateTimer() {
       try {
         const response = await fetch('/remaining-time');
-        if (!response.ok) {
-          throw new Error('残り時間の取得に失敗しました');
-        }
+        if (!response.ok) throw new Error("残り時間の取得に失敗しました");
+
         const timeLeft = await response.json();
         document.getElementById("timer").textContent = "タイマー: " + (timeLeft > 0 ? timeLeft : "タイムアップ!");
-        if (timeLeft <= 0) clearInterval(countdownInterval); // タイムアップで停止
+
+        // タイムアップでタイマー停止
+        if (timeLeft <= 0) clearInterval(countdownInterval);
+      } catch (error) {
+        console.error("タイマー更新エラー:", error);
+      }
+    }
+    let currentQuizId = null; // 現在のクイズID
+    let score = 0; // スコア
+
+    async function startNextQuiz() {
+      try {
+        // クイズを取得
+        const response = await fetch('/battle/next');
+        if (!response.ok) throw new Error('クイズの取得に失敗しました');
+        const quiz = await response.json();
+
+        // クイズ内容を更新
+        currentQuizId = quiz.id; // クイズIDを保存
+        document.getElementById('quiz').innerText = quiz.quiz;
+        document.getElementById('cate').innerText = "カテゴリー: " + quiz.cate;
+        document.getElementById('subcate').innerText = "サブカテゴリー: " + quiz.subcate;
       } catch (error) {
         console.error('エラー:', error);
       }
     }
 
     async function submitAnswer() {
-      const userAnswer = encodeURIComponent(document.getElementById("answerInput").value);
+      const userAnswer = document.getElementById("answerInput").value.trim();
+      if (!currentQuizId) {
+        alert("クイズがロードされていません。");
+        return;
+      }
 
-      const quizId = currentQuizId;
-      const quizAns = currentAnswer;
+      try {
+        // サーバーに回答を送信
+        const response = await fetch(`/battle/submit?userAnswer=${encodeURIComponent(userAnswer)}&quizId=${currentQuizId}`, {
+          method: 'POST',
+        });
 
-      const response = await fetch(`/battle/submit?userAnswer=${userAnswer}&quizId=${quizId}&quizAns=${quizAns}`, {
-        method: 'POST'
-      });
+        if (!response.ok) {
+          throw new Error('回答送信に失敗しました');
+        }
 
-      if (!response.ok) {
-        console.error('エラー:', response.status);
-        alert(`エラー: ${response.status}`);
-      } else {
-        const result = await response.text();
-        alert(result || 'レスポンスが空です');
+        const result = await response.json();
+
+        // 結果を表示
+        if (result.correct) {
+          score += 10;
+          alert("正解！スコア: " + score);
+        } else {
+          alert("不正解！正解は: " + result.correctAnswer);
+        }
+
+        // スコアを更新
+        document.getElementById('score').innerText = "スコア: " + score;
+
+        // スコアが50以上でリザルトページに移動
+        if (score >= 50) {
+          window.location.href = `/result?score=${score}`;
+        } else {
+          document.getElementById("answerInput").value = ""; // 入力欄をクリア
+          startNextQuiz(); // 次のクイズを取得
+        }
+      } catch (error) {
+        console.error('エラー:', error);
+        alert("エラーが発生しました: " + error.message);
       }
     }
   </script>

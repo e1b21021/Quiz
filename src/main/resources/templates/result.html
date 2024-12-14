@@ -2,71 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <title>リザルト画面</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>結果発表</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
+      background: #f0f8ff;
       text-align: center;
-      background-color: #f7f7f7;
+      font-family: Arial, sans-serif;
     }
 
-    .container {
+    .result {
+      margin-top: 50px;
       padding: 20px;
-      max-width: 600px;
-      margin: 50px auto;
-      background-color: white;
+      background: #87CEFA;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .result-message {
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .success {
-      color: green;
-    }
-
-    .failure {
-      color: red;
-    }
-
-    .result-icon {
-      font-size: 50px;
-      margin: 20px 0;
-    }
-
-    .button {
       display: inline-block;
-      padding: 10px 20px;
-      margin: 10px;
-      font-size: 16px;
-      color: white;
-      background-color: #007BFF;
-      text-decoration: none;
-      border-radius: 5px;
-      transition: background-color 0.3s;
     }
 
-    .button:hover {
-      background-color: #0056b3;
+    h1 {
+      color: #4682B4;
+    }
+
+    p {
+      font-size: 20px;
+      color: #333;
+    }
+
+    a {
+      display: block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: white;
+      background: #007BFF;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+
+    a:hover {
+      background: #0056b3;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <div th:class="'result-icon ' + (${resultType} == 'success' ? 'success' : 'failure')">
-      <span th:text="${resultType == 'success' ? '🎉' : '❌'}"></span>
-    </div>
-    <div th:class="'result-message ' + (${resultType} == 'success' ? 'success' : 'failure')" th:text="${resultMessage}">
-      リザルトメッセージがここに表示されます。
-    </div>
-    <a href="/quiz" class="button">クイズに戻る</a>
-    <a href="/" class="button" style="background-color: #28a745;">トップに戻る</a>
+  <div class="result">
+    <h1>結果発表</h1>
+    <p>あなたのスコアは <span th:text="${score}"></span> 点です！</p>
+    <a href="/">トップページに戻る</a>
   </div>
 </body>
 
