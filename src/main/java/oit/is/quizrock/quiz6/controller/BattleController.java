@@ -59,4 +59,9 @@ public class BattleController {
     model.addAttribute("score", score); // スコアを結果画面に渡す
     return "result"; // result.html テンプレートを表示
   }
+
+  @GetMapping("/start")
+  public String startQuiz() {
+    return "start"; // start.html を表示
+  }
 }
