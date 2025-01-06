@@ -23,7 +23,7 @@ public class WaitingRoomController {
    * @param model    モデルに追加するデータ
    * @return テンプレート名
    */
-  @GetMapping("/3_history_waiting-room")
+  @GetMapping("/5_history_waiting-room")
   public String showWaitingRoom(@RequestParam(name = "username", required = false) String username, Model model) {
     if (username != null && !username.isEmpty()) {
       // データベースに名前を保存
