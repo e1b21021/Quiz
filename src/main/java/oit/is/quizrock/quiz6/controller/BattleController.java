@@ -57,6 +57,7 @@ public class BattleController {
   @GetMapping("/result")
   public String showResult(Model model) {
     model.addAttribute("score", score); // スコアを結果画面に渡す
+    score = 0;
     return "result"; // result.html テンプレートを表示
   }
 }
