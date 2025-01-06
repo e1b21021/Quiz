@@ -10,7 +10,7 @@ import java.time.temporal.ChronoUnit;
 public class TimerController {
 
     private LocalDateTime startTime;
-    private static final long TIMER_DURATION_SECONDS = 10;
+    private static final long TIMER_DURATION_SECONDS = 20;
 
     // タイマーを開始するエンドポイント
     @GetMapping("/start-timer")
