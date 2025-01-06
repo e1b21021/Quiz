@@ -103,6 +103,7 @@
 
 <body>
   <h1>★対戦画面★</h1>
+
   <div id="quizField">
     <p id="quiz">クイズが表示されます</p>
     <p id="cate">カテゴリーが表示されます</p>
@@ -131,6 +132,12 @@
   </div>
 
   <script>
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // ページ読み込み時に次のクイズを開始
+      startNextQuiz();
+    });
+
     let countdownInterval;
     let currentQuizId;
     let currentAnswer;
@@ -214,5 +221,11 @@
         alert("エラーが発生しました: " + error.message);
       }
     }
+
+    // ページロード時に1問目のクイズを開始
+    document.addEventListener("DOMContentLoaded", () => {
+      startNextQuiz();
+    });
   </script>
+
 </body>
