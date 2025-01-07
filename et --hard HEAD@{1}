@@ -1,0 +1,44 @@
+[33mae29f93[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{0}: checkout: moving from make_point-system to main
+[33m20eb941[m[33m ([m[1;31morigin/make_point-system[m[33m, [m[1;32mmake_point-system[m[33m)[m HEAD@{1}: checkout: moving from make_point-system to make_point-system
+[33m20eb941[m[33m ([m[1;31morigin/make_point-system[m[33m, [m[1;32mmake_point-system[m[33m)[m HEAD@{2}: commit: ポイント機能の実装
+[33mae29f93[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{3}: checkout: moving from make_point-system to make_point-system
+[33mae29f93[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{4}: checkout: moving from main to make_point-system
+[33mae29f93[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{5}: checkout: moving from main to main
+[33mae29f93[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{6}: pull origin main: Fast-forward
+[33mae19d23[m[33m ([m[1;32mswitch[m[33m)[m HEAD@{7}: checkout: moving from renewal_battle-screen2 to main
+[33m821a344[m[33m ([m[1;31morigin/renewal_battle-screen2[m[33m, [m[1;32mrenewal_battle-screen2[m[33m)[m HEAD@{8}: commit: 初期ページ,
+[33mae19d23[m[33m ([m[1;32mswitch[m[33m)[m HEAD@{9}: checkout: moving from main to renewal_battle-screen2
+[33mae19d23[m[33m ([m[1;32mswitch[m[33m)[m HEAD@{10}: pull: Fast-forward
+[33m3e6af29[m[33m ([m[1;32mdelete_quiz.html[m[33m)[m HEAD@{11}: checkout: moving from renewal_battle-screen to main
+[33mddabb80[m[33m ([m[1;31morigin/renewal_battle-screen[m[33m, [m[1;32mrenewal_battle-screen[m[33m)[m HEAD@{12}: commit: 初期、待機、対戦ページの改修
+[33m3e6af29[m[33m ([m[1;32mdelete_quiz.html[m[33m)[m HEAD@{13}: checkout: moving from main to renewal_battle-screen
+[33m3e6af29[m[33m ([m[1;32mdelete_quiz.html[m[33m)[m HEAD@{14}: checkout: moving from delete_quiz.html to main
+[33m3e6af29[m[33m ([m[1;32mdelete_quiz.html[m[33m)[m HEAD@{15}: checkout: moving from main to delete_quiz.html
+[33m3e6af29[m[33m ([m[1;32mdelete_quiz.html[m[33m)[m HEAD@{16}: checkout: moving from delete_quizcontroller to main
+[33m3e6af29[m[33m ([m[1;32mdelete_quiz.html[m[33m)[m HEAD@{17}: checkout: moving from main to delete_quizcontroller
+[33m3e6af29[m[33m ([m[1;32mdelete_quiz.html[m[33m)[m HEAD@{18}: pull: Fast-forward
+[33m7a5d8ff[m HEAD@{19}: pull: Fast-forward
+[33m73fb6f7[m HEAD@{20}: checkout: moving from result-room to main
+[33m643583c[m[33m ([m[1;31morigin/result-room[m[33m, [m[1;32mresult-room[m[33m)[m HEAD@{21}: commit: 結果画面を作成
+[33m73fb6f7[m HEAD@{22}: checkout: moving from main to result-room
+[33m73fb6f7[m HEAD@{23}: pull: Fast-forward
+[33ma714391[m HEAD@{24}: checkout: moving from make_question to main
+[33m37c557b[m[33m ([m[1;31morigin/make_question[m[33m, [m[1;32mmake_question[m[33m)[m HEAD@{25}: commit: 問題の追加
+[33ma714391[m HEAD@{26}: checkout: moving from main to make_question
+[33ma714391[m HEAD@{27}: pull: Fast-forward
+[33mc57424b[m HEAD@{28}: checkout: moving from question to main
+[33mb0bfb6b[m[33m ([m[1;31morigin/question[m[33m, [m[1;32mquestion[m[33m)[m HEAD@{29}: commit: 問題を一つ表示
+[33mc57424b[m HEAD@{30}: checkout: moving from main to question
+[33mc57424b[m HEAD@{31}: checkout: moving from make_waiting-room to main
+[33ma096827[m[33m ([m[1;31morigin/make_waiting-room[m[33m, [m[1;32mmake_waiting-room[m[33m)[m HEAD@{32}: commit: 待機所作成
+[33mc57424b[m HEAD@{33}: checkout: moving from main to make_waiting-room
+[33mc57424b[m HEAD@{34}: pull: Fast-forward
+[33m359f5a0[m HEAD@{35}: checkout: moving from main to main
+[33m359f5a0[m HEAD@{36}: pull: Fast-forward
+[33ma6fb719[m HEAD@{37}: pull: Fast-forward
+[33mbea9417[m HEAD@{38}: checkout: moving from task3 to main
+[33m33dd9e2[m[33m ([m[1;31morigin/task3[m[33m, [m[1;32mtask3[m[33m)[m HEAD@{39}: commit: ファイル設置
+[33m2be7a05[m[33m ([m[1;31morigin/task2[m[33m, [m[1;32mtask2[m[33m)[m HEAD@{40}: checkout: moving from task2 to task3
+[33m2be7a05[m[33m ([m[1;31morigin/task2[m[33m, [m[1;32mtask2[m[33m)[m HEAD@{41}: commit: サーバー設定
+[33mbea9417[m HEAD@{42}: checkout: moving from main to task2
+[33mbea9417[m HEAD@{43}: clone: from github.com:e1b21021/Quiz.git

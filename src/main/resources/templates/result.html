@@ -52,5 +52,42 @@
     <a href="/">トップページに戻る</a>
   </div>
 </body>
+<!-- 対戦相手のスコア欄を追加 -->
+<div id="opponentResultField">
+  <h2>対戦相手の結果</h2>
+  <p>スコア: <span id="opponentResultScore">0</span> 点</p>
+</div>
+<style>
+  /* 対戦相手の結果表示エリア */
+  #opponentResultField {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    width: 250px;
+    padding: 20px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  #opponentResultField h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #4682B4;
+  }
+
+  #opponentResultField p {
+    font-size: 18px;
+    color: #333;
+  }
+
+  #opponentResultScore {
+    font-size: 24px;
+    font-weight: bold;
+    color: #FFD700;
+    /* ゴールド色 */
+  }
+</style>
 
 </html>

@@ -215,4 +215,39 @@
       }
     }
   </script>
+  <!-- 対戦相手スコア欄追加 -->
+  <div id="opponentScoreField">
+    <h2>対戦相手のスコア</h2>
+    <p>スコア: <span id="opponentScore">0</span></p>
+  </div>
+  <style>
+    /* 対戦相手スコア欄 */
+    #opponentScoreField {
+      position: absolute;
+      top: 120px;
+      right: 20px;
+      width: 250px;
+      padding: 20px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #opponentScoreField h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    #opponentScoreField p {
+      font-size: 18px;
+    }
+
+    #opponentScore {
+      font-size: 24px;
+      font-weight: bold;
+      color: #FFD700;
+    }
+  </style>
+
 </body>
