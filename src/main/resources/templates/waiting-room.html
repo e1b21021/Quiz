@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>待機所</title>
-  <link rel="stylesheet" href="/static/style.css">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
+      background: linear-gradient(to bottom, #87CEEB, #1E90FF);
       margin: 0;
       padding: 0;
       display: flex;
@@ -16,75 +16,62 @@
       align-items: center;
       height: 100vh;
     }
+
     .container {
-      background-color: #ffffff;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       width: 90%;
       max-width: 400px;
-      text-align: center;
     }
+
     h1 {
-      color: #333;
+      font-size: 28px;
+      margin-bottom: 20px;
     }
-    form {
+
+    p {
+      margin-bottom: 15px;
+    }
+
+    #statusMessage {
       margin-top: 20px;
-    }
-    label {
-      display: block;
-      margin-top: 10px;
-      font-weight: bold;
+      font-size: 16px;
       color: #555;
     }
-    select {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    button {
-      margin-top: 20px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
   </style>
+  <script>
+    async function checkPlayersReady() {
+      try {
+        const response = await fetch('/check-players');
+        const ready = await response.json();
+
+        if (ready) {
+          window.location.href = '/battle';
+        } else {
+          document.getElementById('statusMessage').innerText = "対戦相手を待っています...";
+          setTimeout(checkPlayersReady, 2000); // 2秒ごとに再確認
+        }
+      } catch (error) {
+        console.error('エラー:', error);
+      }
+    }
+
+    // ページロード時にチェックを開始
+    window.onload = checkPlayersReady;
+  </script>
 </head>
+
 <body>
   <div class="container">
     <h1>待機所</h1>
-    <p>ジャンルと問題数を選んで、部屋に入ってください。</p>
-
-    <form action="/waiting-room" method="get">
-      <label for="genre">ジャンルを選択してください:</label>
-      <select id="genre" name="genre" required>
-        <option value="anime">アニメ</option>
-        <option value="history">歴史</option>
-        <option value="music">音楽</option>
-        <option value="sports">スポーツ</option>
-      </select>
-
-      <label for="numQuestions">問題数を選択してください:</label>
-      <select id="numQuestions" name="numQuestions" required>
-        <option value="3">3</option>
-        <option value="5">5</option>
-        <option value="10">10</option>
-        <option value="20">20</option>
-        <option value="50">50</option>
-        <option value="100">100</option>
-      </select>
-
-      <button type="submit">部屋へ移動</button>
-    </form>
+    <p>他のプレイヤーが参加するのを待っています...</p>
+    <p>ジャンル: <span th:text="${genre}">---</span></p>
+    <p>問題数: <span th:text="${numQuestions}">---</span></p>
+    <p id="statusMessage">対戦相手を待機中...</p>
   </div>
 </body>
+
 </html>

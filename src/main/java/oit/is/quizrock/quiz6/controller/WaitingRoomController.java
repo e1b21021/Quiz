@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import oit.is.quizrock.quiz6.mapper.UserMapper;
 import oit.is.quizrock.quiz6.model.User;
@@ -16,14 +17,13 @@ public class WaitingRoomController {
   UserMapper userMapper;
 
   /**
-   * /waiting-roomを呼び出すときに名前、ジャンル、問題数を受け取り、
-   * 適切な待機部屋に遷移します。
+   * 待機所画面を表示する
    *
-   * @param username     フォームから送信された名前
-   * @param genre        フォームから送信されたジャンル
-   * @param numQuestions フォームから送信された問題数
-   * @param model        モデルに追加するデータ
-   * @return 遷移先テンプレート名
+   * @param username     名前
+   * @param genre        ジャンル
+   * @param numQuestions 問題数
+   * @param model        モデル
+   * @return 待機所テンプレート
    */
   @GetMapping("/waiting-room")
   public String showWaitingRoom(
@@ -33,19 +33,26 @@ public class WaitingRoomController {
       Model model) {
 
     if (username != null && !username.isEmpty()) {
-      // データベースに名前を保存
       User user = new User();
       user.setName(username);
       userMapper.insertUser(user);
     }
 
-    if (genre != null && numQuestions != null) {
-      // 選択されたジャンルと問題数に応じて遷移
-      String roomTemplate = numQuestions + "_" + genre + "_waiting-room";
-      return roomTemplate; // テンプレート名
-    }
+    model.addAttribute("genre", genre);
+    model.addAttribute("numQuestions", numQuestions);
 
-    model.addAttribute("message", "ジャンルと問題数を選んでください");
     return "waiting-room";
+  }
+
+  /**
+   * プレイヤー数を確認するAPI
+   *
+   * @return プレイヤーが2人揃ったかどうか
+   */
+  @GetMapping("/check-players")
+  @ResponseBody
+  public boolean checkPlayersReady() {
+    int userCount = userMapper.selectAllUsers().size();
+    return userCount >= 2; // 2人以上で対戦準備完了
   }
 }

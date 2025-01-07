@@ -12,31 +12,28 @@ import oit.is.quizrock.quiz6.model.User;
 @Mapper
 public interface UserMapper {
 
-  // idを指定して1つのユーザ情報を取得する
-  @Select("SELECT id, name FROM users WHERE id = #{id}")
+  // ユーザーIDでユーザー情報を取得
+  @Select("SELECT id, name, point FROM users WHERE id = #{id}")
   User selectById(int id);
 
-  // nameを指定してすべてのユーザ情報を取得する
-  @Select("SELECT id, name FROM users WHERE name = #{name}")
+  // 名前でユーザー情報を取得 (複数)
+  @Select("SELECT id, name, point FROM users WHERE name = #{name}")
   ArrayList<User> selectAllByName(String name);
 
-  // 新しいユーザを挿入する（自動生成されたIDを取得）
-  @Insert("INSERT INTO users (name) VALUES (#{name});")
+  // すべてのユーザー情報を取得
+  @Select("SELECT id, name, point FROM users")
+  ArrayList<User> selectAllUsers();
+
+  // 名前で1件のユーザー情報を取得
+  @Select("SELECT id, name, point FROM users WHERE name = #{name} LIMIT 1")
+  User selectByName(String name);
+
+  // 新しいユーザーを挿入（ID自動生成）
+  @Insert("INSERT INTO users (name) VALUES (#{name})")
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   void insertUser(User user);
 
-  // すべてのユーザを取得する
-  @Select("SELECT * FROM users")
-  ArrayList<User> selectAllUsers();
-
-  // 名前を指定して1つのユーザ情報を取得する
-  @Select("SELECT id, name FROM users WHERE name = #{name} LIMIT 1")
-  User selectByName(String name);
-
-  @Select("SELECT * FROM users WHERE name = #{name}")
-  User selectByName2(String name);
-
+  // ポイントを更新
   @Update("UPDATE users SET point = #{point} WHERE id = #{id}")
-  void updateUser(User user);
-
+  void updateUserPoints(User user);
 }
