@@ -1,66 +1,90 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>クイズゲーム - 待機所</title>
+  <title>待機所</title>
+  <link rel="stylesheet" href="/static/style.css">
   <style>
     body {
-      background: linear-gradient(to bottom, #FFD700, #FFA500);
-      color: white;
       font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      margin: 0;
     }
-
     .container {
-      text-align: center;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 30px;
+      background-color: #ffffff;
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
     }
-
     h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
+      color: #333;
     }
-
-    p {
-      margin-bottom: 20px;
+    form {
+      margin-top: 20px;
     }
-
-    input[type="submit"] {
-      padding: 10px 20px;
-      font-size: 16px;
-      color: white;
-      background-color: #28a745;
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #007bff;
+      color: #fff;
       border: none;
+      padding: 10px 15px;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      font-size: 16px;
     }
-
-    input[type="submit"]:hover {
-      background-color: #1c7430;
+    button:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
-
 <body>
   <div class="container">
-    <h1 th:text="${message}">待機所</h1>
-    <p>お待ちください...</p>
-    <p>ジャンル名：戦国</p>
-    <p>問題数：5問</p>
-    <form action="/start" method="GET">
-      <input type="submit" value="クイズに参加する">
+    <h1>待機所</h1>
+    <p>ジャンルと問題数を選んで、部屋に入ってください。</p>
+
+    <form action="/waiting-room" method="get">
+      <label for="genre">ジャンルを選択してください:</label>
+      <select id="genre" name="genre" required>
+        <option value="anime">アニメ</option>
+        <option value="history">歴史</option>
+        <option value="music">音楽</option>
+        <option value="sports">スポーツ</option>
+      </select>
+
+      <label for="numQuestions">問題数を選択してください:</label>
+      <select id="numQuestions" name="numQuestions" required>
+        <option value="3">3</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+
+      <button type="submit">部屋へ移動</button>
     </form>
   </div>
 </body>
-
 </html>

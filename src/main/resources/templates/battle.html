@@ -116,7 +116,7 @@
 
   <!-- タイマー表示エリア -->
   <div id="timerField">
-    <p id="timer">タイマー: 10</p>
+    <p id="timer">タイマー: 20</p>
   </div>
 
   <div id="inputField">
@@ -124,7 +124,7 @@
     <button onclick="submitAnswer()">送信</button>
   </div>
   <div id="buttonField">
-    <button onclick="startNextQuiz()">次のクイズへ</button>
+    <button id="startQuizButton" onclick="startQuiz()">クイズを開始</button>
     <a href="/" style="text-decoration: none;">
       <button class="top-button">トップページに戻る</button>
     </a>
@@ -141,7 +141,7 @@
       try {
         // タイマーを開始
         await fetch('/start-timer');
-        document.getElementById("timer").textContent = "タイマー: 10";
+        document.getElementById("timer").textContent = "タイマー: 20";
 
         if (countdownInterval) clearInterval(countdownInterval);
         countdownInterval = setInterval(updateTimer, 1000);
@@ -214,5 +214,14 @@
         alert("エラーが発生しました: " + error.message);
       }
     }
+
+    function startQuiz() {
+      // ボタンを非表示にする
+      const startQuizButton = document.getElementById("startQuizButton");
+      startQuizButton.style.display = "none";
+      // クイズを開始
+      startNextQuiz();
+    }
   </script>
 </body>
+</html>
