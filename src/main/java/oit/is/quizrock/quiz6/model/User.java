@@ -1,19 +1,11 @@
 package oit.is.quizrock.quiz6.model;
 
 public class User {
-  int id;
-  String name;
-  int point;
+  private int id; // ユーザーID
+  private String name; // ユーザー名
+  private int point; // ポイント
 
-  // Thymeleafでフィールドを扱うためにはgetter/setterが必ず必要
-  public String getName() { // フィールド名をDBに合わせて変更
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
+  // ユーザーIDのgetter/setter
   public int getId() {
     return id;
   }
@@ -22,11 +14,21 @@ public class User {
     this.id = id;
   }
 
-  public int getpoint() {
+  // ユーザー名のgetter/setter
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  // ポイントのgetter/setter
+  public int getPoint() {
     return point;
   }
 
-  public void setpoint(int point) {
+  public void setPoint(int point) {
     this.point = point;
   }
 }
