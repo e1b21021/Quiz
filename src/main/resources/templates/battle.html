@@ -41,7 +41,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
 
-    #scoreField {
+    #questionCountField {
       margin-top: 10px;
       font-size: 20px;
       text-align: center;
@@ -98,11 +98,40 @@
     .top-button:hover {
       background-color: #1c7430;
     }
+
+    #opponentScoreField {
+      position: absolute;
+      top: 120px;
+      right: 20px;
+      width: 250px;
+      padding: 20px;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #opponentScoreField h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    #opponentScoreField p {
+      font-size: 18px;
+    }
+
+    #opponentScore {
+      font-size: 24px;
+      font-weight: bold;
+      color: #FFD700;
+    }
   </style>
 </head>
 
 <body>
   <h1>★対戦画面★</h1>
+
+  <!-- クイズ表示エリア -->
   <div id="quizField">
     <p id="quiz">クイズが表示されます</p>
     <p id="cate">カテゴリーが表示されます</p>
@@ -119,10 +148,13 @@
     <p id="timer">タイマー: 20</p>
   </div>
 
+  <!-- 回答入力エリア -->
   <div id="inputField">
     <input id="answerInput" type="text" placeholder="ここに回答を入力">
     <button onclick="submitAnswer()">送信</button>
   </div>
+
+  <!-- ボタンエリア -->
   <div id="buttonField">
     <button id="startQuizButton" onclick="startQuiz()">クイズを開始</button>
     <a href="/" style="text-decoration: none;">
@@ -130,133 +162,59 @@
     </a>
   </div>
 
+  <!-- 対戦相手スコア表示 -->
+  <div id="opponentScoreField">
+    <h2>対戦相手のスコア</h2>
+    <p>スコア: <span id="opponentScore">0</span></p>
+  </div>
+
+  <!-- WebSocketとクイズ処理用JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   <script>
-    let countdownInterval;
-    let currentQuizId;
-    let currentAnswer;
-    let score = 0; // 正解数
-    let questionCount = 1; // 現在の問題数
+    let stompClient = null;
+    let currentQuizId = null;
+    let currentAnswer = null;
+    let score = 0;
+    let questionCount = 1;
 
-    async function startNextQuiz() {
-      try {
-        // タイマーを開始
-        await fetch('/start-timer');
-        document.getElementById("timer").textContent = "タイマー: 20";
+    function connectWebSocket() {
+      const socket = new SockJS('/ws/battle');
+      stompClient = Stomp.over(socket);
 
-        if (countdownInterval) clearInterval(countdownInterval);
-        countdownInterval = setInterval(updateTimer, 1000);
+      stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
 
-        // 次のクイズを取得
-        const response = await fetch('/battle/next');
-        if (!response.ok) throw new Error('クイズの取得に失敗しました');
-
-        const quiz = await response.json();
-        document.getElementById('quiz').innerText = quiz.quiz;
-        document.getElementById('cate').innerText = "カテゴリー: " + quiz.cate;
-        document.getElementById('subcate').innerText = "サブカテゴリー: " + quiz.subcate;
-
-        currentQuizId = quiz.id;
-        currentAnswer = quiz.ans;
-
-        // 問題数を更新
-        document.getElementById('questionCount').textContent = `現在の問題: ${questionCount}`;
-      } catch (error) {
-        console.error('エラー:', error);
-      }
-    }
-
-    async function updateTimer() {
-      try {
-        const response = await fetch('/remaining-time');
-        if (!response.ok) throw new Error('残り時間の取得に失敗しました');
-
-        const timeLeft = await response.json();
-        document.getElementById("timer").textContent = "タイマー: " + (timeLeft > 0 ? timeLeft : "タイムアップ!");
-        if (timeLeft <= 0) clearInterval(countdownInterval);
-      } catch (error) {
-        console.error('タイマー更新エラー:', error);
-      }
-    }
-
-    async function submitAnswer() {
-      const userAnswer = encodeURIComponent(document.getElementById("answerInput").value);
-
-      if (!currentQuizId) {
-        alert("クイズがロードされていません。");
-        return;
-      }
-
-      try {
-        const response = await fetch(`/battle/submit?userAnswer=${userAnswer}&quizId=${currentQuizId}&quizAns=${currentAnswer}`, {
-          method: 'POST',
+        stompClient.subscribe('/topic/battle', function (update) {
+          const quiz = JSON.parse(update.body);
+          document.getElementById('quiz').innerText = quiz.quiz;
+          document.getElementById('cate').innerText = "カテゴリー: " + quiz.cate;
+          document.getElementById('subcate').innerText = "サブカテゴリー: " + quiz.subcate;
+          currentQuizId = quiz.id;
+          currentAnswer = quiz.ans;
         });
 
-        if (!response.ok) throw new Error('回答送信に失敗しました');
-
-        const result = await response.text();
-        alert(result);
-
-        // 正解ならスコアを加算
-        if (result.includes("正解")) {
-          score += 10;
-        }
-
-        // スコアが50以上でリザルトページに移動
-        if (score >= 50) {
-          window.location.href = `/result?score=${score}`;
-        } else {
-          questionCount++; // 問題数をインクリメント
-          document.getElementById("answerInput").value = ""; // 入力欄をクリア
-          startNextQuiz(); // 次のクイズを取得
-        }
-      } catch (error) {
-        console.error('エラー:', error);
-        alert("エラーが発生しました: " + error.message);
-      }
+        stompClient.subscribe('/topic/score', function (scoreUpdate) {
+          document.getElementById('opponentScore').innerText = scoreUpdate.body;
+        });
+      });
     }
 
     function startQuiz() {
-      // ボタンを非表示にする
-      const startQuizButton = document.getElementById("startQuizButton");
-      startQuizButton.style.display = "none";
-      // クイズを開始
-      startNextQuiz();
+      document.getElementById("startQuizButton").style.display = "none";
+      stompClient.send("/app/battle/update", {}, JSON.stringify({}));
     }
+
+    function submitAnswer() {
+      const userAnswer = document.getElementById("answerInput").value.trim();
+      stompClient.send("/app/battle/submit", {}, JSON.stringify({
+        quizId: currentQuizId,
+        userAnswer: userAnswer
+      }));
+    }
+
+    connectWebSocket();
   </script>
 </body>
-<!-- 対戦相手スコア欄追加 -->
-<div id="opponentScoreField">
-  <h2>対戦相手のスコア</h2>
-  <p>スコア: <span id="opponentScore">0</span></p>
-</div>
-<style>
-  /* 対戦相手スコア欄 */
-  #opponentScoreField {
-    position: absolute;
-    top: 120px;
-    right: 20px;
-    width: 250px;
-    padding: 20px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
-
-  #opponentScoreField h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
-  }
-
-  #opponentScoreField p {
-    font-size: 18px;
-  }
-
-  #opponentScore {
-    font-size: 24px;
-    font-weight: bold;
-    color: #FFD700;
-  }
-</style>
 
 </html>
