@@ -135,17 +135,12 @@
   <div id="quizField">
     <p id="quiz">クイズが表示されます</p>
     <p id="cate">カテゴリーが表示されます</p>
-    <p id="subcate">サブカテゴリーが表示されます</p>
+    <p id="subcate">選択肢が表示されます</p>
   </div>
 
   <!-- 現在の問題数を表示 -->
   <div id="questionCountField">
     <p id="questionCount">現在の問題: 1</p>
-  </div>
-
-  <!-- タイマー表示エリア -->
-  <div id="timerField">
-    <p id="timer">タイマー: 20</p>
   </div>
 
   <!-- 回答入力エリア -->
@@ -185,11 +180,17 @@
       stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
 
+        stompClient.subscribe('/topic/answer', function (message) {
+          const opponentResult = message.body;
+          alert(opponentResult); // 相手の回答結果をアラート表示
+        });
+
+        let quizCount = 0;
         stompClient.subscribe('/topic/battle', function (update) {
           const quiz = JSON.parse(update.body);
           document.getElementById('quiz').innerText = quiz.quiz;
           document.getElementById('cate').innerText = "カテゴリー: " + quiz.cate;
-          document.getElementById('subcate').innerText = "サブカテゴリー: " + quiz.subcate;
+          document.getElementById('subcate').innerText = "選択肢: " + quiz.subcate;
           currentQuizId = quiz.id;
           currentAnswer = quiz.ans;
         });
@@ -207,9 +208,25 @@
 
     function submitAnswer() {
       const userAnswer = document.getElementById("answerInput").value.trim();
+      questionCount++;
+
+      let pointsToAdd = 0;
+      if (userAnswer === currentAnswer) {
+        pointsToAdd = 10; // 正解した場合、10点加算
+      }
+
+      // スコアを加算する
+      score += pointsToAdd;
+
+      // スコアを更新
+      document.getElementById('opponentScore').innerText = score;
+
+      // 正解・不正解結果をサーバーに送信
       stompClient.send("/app/battle/submit", {}, JSON.stringify({
         quizId: currentQuizId,
-        userAnswer: userAnswer
+        userAnswer: userAnswer,
+        quizAns: currentAnswer,
+        points: pointsToAdd // 加算するポイント
       }));
     }
 
