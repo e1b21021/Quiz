@@ -7,13 +7,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QuizService {
+
   @Autowired
   private QuizMapper quizMapper;
 
+  // ランダムなクイズを取得
   public Quiz getRandomQuiz() {
     return quizMapper.findRandomQuiz();
   }
 
+  // クイズIDでクイズを取得
   public Quiz findQuizById(int quizId) {
     return quizMapper.findQuizById(quizId);
   }

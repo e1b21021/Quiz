@@ -33,7 +33,11 @@ public interface UserMapper {
   @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
   void insertUser(User user);
 
-  // ポイントを更新
+  // ポイントを更新 (Userオブジェクト使用)
   @Update("UPDATE users SET point = #{point} WHERE id = #{id}")
   void updateUserPoints(User user);
+
+  // ポイントを更新 (直接IDとポイント指定)
+  @Update("UPDATE users SET point = #{point} WHERE id = #{id}")
+  void updateScore(int id, int point);
 }

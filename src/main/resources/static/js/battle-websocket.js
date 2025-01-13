@@ -16,6 +16,16 @@ stompClient.connect({}, function (frame) {
   stompClient.subscribe('/topic/score', function (score) {
     document.getElementById('opponentScore').innerText = score.body;
   });
+
+  // 正解・不正解のメッセージ処理
+  stompClient.subscribe('/topic/result', function (result) {
+    const data = JSON.parse(result.body);
+    if (data.isCorrect) {
+      document.getElementById('resultMessage').innerText = "あなたは正解しました！";
+    } else {
+      document.getElementById('resultMessage').innerText = "あなたは不正解です！";
+    }
+  });
 });
 
 // クイズを送信
@@ -25,5 +35,15 @@ function sendQuizUpdate(message) {
 
 // スコアを送信
 function sendScoreUpdate(score) {
-  stompClient.send("/app/battle/score", {}, score);
+  stompClient.send("/app/battle/score", {}, JSON.stringify(score));
+}
+
+// 回答送信
+function submitAnswer(userAnswer, userId) {
+  const message = {
+    userAnswer: userAnswer,
+    userId: userId,
+    // 他に必要な情報（例えばユーザーIDやクイズIDなど）を追加
+  };
+  stompClient.send("/app/battle/submit", {}, JSON.stringify(message));
 }
